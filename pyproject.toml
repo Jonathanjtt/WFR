@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gmmvi"
+version = "0.0.0"
+description = "GMM variational inference benchmarks (WFR / IBW / GMBBVI / SEMTRUX targets)"
+requires-python = ">=3.10"
+# Intentionally NO dependencies here: the conda env already provides jax/numpy/etc., and we do NOT
+# want `pip install -e .` to touch (and possibly break) that carefully-working jax-GPU install.
+
+# Everything ships under the single `gmmvi` package; subpackages without __init__.py are picked up
+# as namespace portions, so `import gmmvi.algorithms.gmbbvi`, `import gmmvi.targets.MoG40`, ... resolve
+# from ANY cwd once installed.
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["gmmvi*"]
+namespaces = true
+
+[tool.pytest.ini_options]
+markers = [
+    "network: hits the internet (re-syncing the vendored WALNUTS against upstream); skipped when offline",
+]

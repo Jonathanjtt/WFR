@@ -1,0 +1,49 @@
+K = 3
+n_iterations = 200
+init_seed = 0
+
+[init]
+offset = 0.0              # initial means centered at the origin
+spread = 2.0
+cov_scale = 1e-5
+
+[methods.gmbbvi]
+dt_max = 0.5
+J = 124                   # MC samples per component per iteration
+BKL = 4000                # samples for the reverse-KL diagnostic
+compute_kl = 10
+
+[methods.semtrux]
+J = 124
+BKL = 4000
+compute_kl = 10
+
+[methods.ibw]
+learning_rate = 5e-4
+BG = 10                   # gradient-noise batch
+BKL = 4000
+compute_kl = 10
+
+[methods.WFR]
+dt_fr = 0.2               # adaptive FR-step ceiling
+n_w_steps = "auto"
+eta_mode = "adaptive"
+eta_max = 1e-3            # adaptive W-step ceiling
+fr_step_mode = "adaptive"
+max_w_steps = 10
+require_pos_clearance = false
+J = 124
+BKL = 4000
+compute_kl = 10
+mu_minus = 1e-5
+mu_plus = 150.0
+
+[metrics]
+n_ess = 50_000
+ess_seeds = 5
+
+[metrics.ot]
+enabled = false
+
+[metrics.mmd]
+enabled = false

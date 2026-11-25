@@ -1,0 +1,14 @@
+numpy
+scipy
+matplotlib
+ott-jax==0.6.0
+# PINNED, unlike the rest of this file, because it is the only dependency whose version can
+# silently change a FIGURE.  notebooks/nice_digits_benchmark.ipynb fits one UMAP embedding for
+# its target-vs-methods UMAP figure; UMAP's layout is stochastic and its algorithm
+# has changed across releases, so an unpinned version would redraw that panel differently on a
+# fresh environment.  The notebook already pins random_state (UMAP_SEED = 0, which also forces
+# umap to n_jobs = 1 -- it refuses to run parallel with a seed set) and stamps umap.__version__
+# into the embedding cache, so a version bump forces a refit rather than reusing a stale cache.
+# Note the import name is `umap` but the PyPI package is `umap-learn`; plain `umap` on PyPI is
+# an unrelated project.  Upstream: https://github.com/lmcinnes/umap
+umap-learn==0.5.12

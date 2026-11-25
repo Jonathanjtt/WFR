@@ -1,0 +1,72 @@
+target = "Circle"
+K = 40
+n_iterations = 500
+init_seed = 0
+
+[init]
+offset = [0.0, 0.0]       # initial means centered at the origin
+spread = 2.0
+cov_scale = 1e-5
+
+[methods.gmbbvi]
+dt_max = 0.5
+beta = 0.8
+J = 8                     # MC samples per component per iteration
+BKL = 1000                # samples for the reverse-KL diagnostic
+compute_kl = 1
+
+[methods.semtrux]
+J = 8
+BKL = 1000
+compute_kl = 1
+
+[methods.ibw]
+learning_rate = 2.0e-3
+BG = 16                   # gradient-noise batch
+BKL = 1000
+compute_kl = 1
+
+[methods.WFR]
+dt_fr = 0.25              # adaptive FR-step ceiling
+n_w_steps = "auto"
+eta_mode = "adaptive"
+eta_max = 2.0e-3          # adaptive W-step ceiling
+max_w_steps = 10
+fr_step_mode = "adaptive"
+J = 8
+BKL = 1000
+compute_kl = 1
+mu_minus = 1e-5
+mu_plus = 100
+
+[methods.walnuts]
+n_iterations = 30_000     # MCMC transitions, not optimiser iterations
+warmup_iterations = 300
+adapt_H_target = 0.8
+adapt_delta_target = 0.6
+adapt_delta_quantile = 0.9
+store_diagnostics = false
+
+[metrics]
+n_ess = 50_000
+ess_seeds = 5
+
+[metrics.ot]
+enabled = true
+relative_epsilon = 0.01
+max_scale_samples = 2000
+scale_seed = 0
+normalize_by_dim = false
+n = 2000                  # samples per cloud in the OT problem
+seed = 0
+target_seed = 0
+max_iterations = 20_000
+
+[metrics.mmd]
+enabled = true
+max_points = 2048
+bandwidth_seed = 99
+n = 4000                  # samples per cloud for the MMD estimate
+seed = 0
+target_seed = 0
+biased = true

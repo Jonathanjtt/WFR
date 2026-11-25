@@ -1,0 +1,40 @@
+target = "nice_digits"
+init_seed = 0
+K = 20
+n_iterations = 500
+
+[init]
+offset = 0.0              # initial means centered at the origin
+spread = 1.0
+cov_scale = 1.0
+
+[methods.ibw]
+learning_rate = 0.02
+BG = 64                   # gradient-noise batch
+BKL = 1000                # samples for the reverse-KL diagnostic
+
+[methods.gmbbvi]
+J = 256                   # MC samples per component per iteration
+BKL = 1000
+
+[methods.semtrux]
+J = 256
+BKL = 1000
+
+[methods.WFR]
+J = 256
+BKL = 1000
+eta_max = 0.25            # adaptive W-step ceiling
+dt_fr = 0.5
+mu_minus = 1e-3
+mu_plus = 1e4
+nonconvex_z_floor = 0.1   # clearance witness floor (default 1e-5)
+
+[metrics.ot]
+relative_epsilon = 0.001
+n = 2000                  # samples per cloud in the OT problem
+seed = 0
+
+[metrics.mmd]
+n = 2000                  # samples per cloud for the MMD estimate
+seed = 0

@@ -1,0 +1,45 @@
+target = "MoG40"
+init_seed = 0
+n_iterations = 300
+
+[init]
+offset = [30.0, 30.0]     # initial means centered at (30, 30), outside the mode grid
+spread = 2.0
+cov_scale = 1e-5
+
+[methods.ibw]
+learning_rate = 0.02
+BG = 64                   # gradient-noise batch
+BKL = 1000                # samples for the reverse-KL diagnostic
+
+[methods.WFR]
+eta_mode = "fixed"
+eta_w = 1.0               # fixed W step
+fr_step_mode = "fixed"
+dt_fr = 0.15              # fixed FR step
+J = 64
+BKL = 1000
+mu_minus = 1e-5
+mu_plus = 20
+
+[methods.gmbbvi]
+dt_max = 0.5
+beta = 0.9
+eta_min = 0.1
+J = 64
+BKL = 1000
+compute_kl = 10
+
+[methods.semtrux]
+init_stepsize = 1.0
+max_stepsize = 1.0
+weight_stepsize = 1.0
+stepsize_inc_factor = 1.15
+min_stepsize = 1e-3
+stepsize_dec_factor = 0.85
+J = 64
+BKL = 1000
+compute_kl = 10
+
+[metrics.ot]
+relative_epsilon = 0.01

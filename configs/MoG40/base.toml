@@ -1,0 +1,75 @@
+K = 40
+n_iterations = 300
+init_seed = 0
+
+[init]
+offset = [0.0, 0.0]       # initial means centered at the origin
+spread = 40.0
+cov_scale = 1e-5
+
+[methods.gmbbvi]
+dt_max = 1.0
+beta = 1.5
+eta_min = 0.1
+J = 64                    # MC samples per component per iteration
+BKL = 1000                # samples for the reverse-KL diagnostic
+compute_kl = 10
+
+[methods.semtrux]
+init_stepsize = 1.0
+max_stepsize = 1.0
+weight_stepsize = 1.0
+stepsize_inc_factor = 1.5
+min_stepsize = 1e-3
+stepsize_dec_factor = 0.85
+J = 64
+BKL = 1000
+compute_kl = 10
+
+[methods.ibw]
+learning_rate = 0.02
+BG = 64                   # gradient-noise batch
+BKL = 1000
+compute_kl = 10
+
+[methods.WFR]
+dt_fr = 0.15              # fixed FR step
+n_w_steps = "auto"
+eta_mode = "fixed"
+eta_w = 0.25              # fixed W step
+eta_max = 0.25            # unused while eta_mode = "fixed"
+fr_step_mode = "fixed"
+max_w_steps = 25
+J = 64
+BKL = 1000
+compute_kl = 10
+mu_minus = 1e-5
+mu_plus = 20
+
+[metrics]
+n_emc = 50_000
+emc_seeds = 5
+n_ess = 50_000
+n_emc_trace = 20_000
+emc_trace_seeds = 3
+coverage_radius = 3.0
+
+[metrics.ot]
+enabled = true
+relative_epsilon = 0.01
+max_scale_samples = 2000
+scale_seed = 0
+normalize_by_dim = false
+n = 2000                  # samples per cloud in the OT problem
+seed = 0
+target_seed = 0
+max_iterations = 20_000
+
+[metrics.mmd]
+enabled = true
+max_points = 2048
+bandwidth_seed = 99
+n = 2000                  # samples per cloud for the MMD estimate
+seed = 0
+target_seed = 0
+biased = true
